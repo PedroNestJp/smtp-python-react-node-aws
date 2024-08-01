@@ -6,29 +6,25 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Load environment variables
-senha = os.getenv('SMTP_PASSWORD')
-email_de = os.getenv('SMTP_SENDER')
-email_para = os.getenv('SMTP_RECEIVER')
-assunto = 'Assunto'
-texto = 'Hello, World!'
-
 msg = MIMEMultipart()
-msg['From'] = email_de
-msg['To'] = email_para
-msg['Subject'] = assunto
-msg.attach(MIMEText(texto, 'plain'))
+msgText = "Estou enviando um email com Python"
+
+password = os.getenv('SMTP_PASSWORD')
+msg['From'] = os.getenv('SMTP_SENDER')
+msg['To'] = os.getenv('SMTP_RECIPIENT')
+msg['Subject'] = "SUBJECT"
+
+msg.attach(MIMEText(msgText, 'plain'))
 
 server = smtplib.SMTP('smtp.gmail.com', 587)
 server.starttls()
 
 try:
-    server.login(email_de, senha)
-    server.sendmail(email_de, email_para, msg.as_string())
+    server.login(msg['From'], password)
+    server.sendmail(msg['From'], msg['To'], msg.as_string())
     print('Mensagem enviada com sucesso')
 except smtplib.SMTPAuthenticationError as e:
     print(f'Erro de autenticação: {e}')
-except Exception as e:
-    print(f'Ocorreu um erro: {e}')
 finally:
+    # Encerramento do servidor
     server.quit()
