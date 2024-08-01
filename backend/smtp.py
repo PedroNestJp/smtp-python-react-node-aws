@@ -12,7 +12,7 @@ msgText = "Estou enviando um email com Python"
 password = os.getenv('SMTP_PASSWORD')
 msg['From'] = os.getenv('SMTP_SENDER')
 msg['To'] = os.getenv('SMTP_RECIPIENT')
-msg['Subject'] = "SUBJECT"
+msg['Subject'] = "Assunto"
 
 msg.attach(MIMEText(msgText, 'plain'))
 
