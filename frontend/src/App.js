@@ -5,7 +5,6 @@ import './App.css';
 const App = () => {
   const [formData, setFormData] = useState({
     receiver: '',
-    password: '',
     subject: '',
     text: ''
   });
@@ -13,6 +12,14 @@ const App = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const ClearFields = () => {
+    setFormData({
+      receiver: '',
+      subject: '',
+      text: ''
+    });
   };
 
   const handleSubmit = (e) => {
@@ -24,16 +31,18 @@ const App = () => {
       .catch(error => {
         console.error('There was an error sending the email!', error);
       });
+
+    ClearFields();
   };
+
+
 
   return (
     <form onSubmit={handleSubmit} className="form">
       <h1>Enviar Email</h1>
-      <input type="email" name="sender" placeholder="Seu Email" onChange={handleChange} required autoComplete='on' />
       <input type="email" name="receiver" placeholder="Email do Destinatário" onChange={handleChange} required autoComplete='on' />
-      <input type="password" name="password" placeholder="Senha" onChange={handleChange} required />
-      <input type="text" name="subject" placeholder="Assunto  " onChange={handleChange} required />
-      <textarea name="text" placeholder="Menssagem" onChange={handleChange} required></textarea>
+      <input type="text" name="subject" placeholder="Assunto" onChange={handleChange} required />
+      <textarea name="text" placeholder="Mensagem" onChange={handleChange} required></textarea>
       <button type="submit">Enviar Email</button>
     </form>
   );
